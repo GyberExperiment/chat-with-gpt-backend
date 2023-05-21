@@ -34,7 +34,6 @@ env = environ.Env(
 
 if  not all((env('MINDSDB_PASSWORD'), env('MINDSDB_USERNAME'))) or \
       not all((len(env('MINDSDB_PASSWORD')) > 0, len(env('MINDSDB_USERNAME')) > 0)):
-    print(11111111111)
     raise ValueError("MINDSDB_USERNAME and MINDSDB_PASSWORD must not be empty!")
 
 # Quick-start development settings - unsuitable for production
