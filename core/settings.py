@@ -15,12 +15,10 @@ import environ
 
 from pathlib import Path
 
-from dotenv import load_dotenv
-
-load_dotenv(".env")
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = environ.Path(__file__) - 2
+
+environ.Env.read_env(f"{BASE_DIR}/.env")
 
 env = environ.Env(
     # set casting, default value
@@ -30,9 +28,14 @@ env = environ.Env(
     # DATABASE_URL=(str, 'psql://lob:lob@127.0.0.1:54321/lob'),
     ALLOWED_HOSTS=(list, ['*']),
 
-    MINDSDB_USERNAME=(str, os.environ['MINDSDB_USERNAME']),
-    MINDSDB_PASSWORD=(str, os.environ['MINDSDB_PASSWORD'])
+    MINDSDB_USERNAME=(str, False),
+    MINDSDB_PASSWORD=(str, False)
 )
+
+if  not all((env('MINDSDB_PASSWORD'), env('MINDSDB_USERNAME'))) or \
+      not all((len(env('MINDSDB_PASSWORD')) > 0, len(env('MINDSDB_USERNAME')) > 0)):
+    print(11111111111)
+    raise ValueError("MINDSDB_USERNAME and MINDSDB_PASSWORD must not be empty!")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
